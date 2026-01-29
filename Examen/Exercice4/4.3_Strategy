@@ -1,0 +1,73 @@
+using System;
+
+// Interface Strategy
+public interface INotificationStrategy
+{
+    void Envoyer(string message, string destinataire);
+}
+
+// Stratégies concrètes
+public class EmailStrategy : INotificationStrategy
+{
+    public void Envoyer(string message, string destinataire)
+    {
+        Console.WriteLine("Connexion au serveur SMTP...");
+        Console.WriteLine($"Envoi email à {destinataire}: {message}");
+        Console.WriteLine("Déconnexion SMTP");
+    }
+}
+
+public class SmsStrategy : INotificationStrategy
+{
+    public void Envoyer(string message, string destinataire)
+    {
+        Console.WriteLine("Connexion API SMS...");
+        Console.WriteLine($"Envoi SMS à {destinataire}: {message}");
+        Console.WriteLine("Déconnexion API");
+    }
+}
+
+public class PushStrategy : INotificationStrategy
+{
+    public void Envoyer(string message, string destinataire)
+    {
+        Console.WriteLine("Connexion Firebase...");
+        Console.WriteLine($"Envoi push à {destinataire}: {message}");
+        Console.WriteLine("Déconnexion Firebase");
+    }
+}
+
+// Contexte
+public class NotificationService
+{
+    private INotificationStrategy _strategy;
+
+    public NotificationService(INotificationStrategy strategy)
+    {
+        _strategy = strategy;
+    }
+
+    public void SetStrategy(INotificationStrategy strategy)
+    {
+        _strategy = strategy;
+    }
+
+    public void SendNotification(string message, string destinataire)
+    {
+        _strategy.Envoyer(message, destinataire);
+    }
+}
+
+// Utilisation
+class Program
+{
+    static void Main()
+    {
+        var service = new NotificationService(new EmailStrategy());
+        service.SendNotification("Votre commande est prête", "client@example.com");
+
+        // Changement de stratégie à l'exécution
+        service.SetStrategy(new SmsStrategy());
+        service.SendNotification("Code: 1234", "+33612345678");
+    }
+}
