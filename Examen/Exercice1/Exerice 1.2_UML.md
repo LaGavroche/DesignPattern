@@ -10,7 +10,7 @@
 │ - fuseauHoraire : string                     │
 ├──────────────────────────────────────────────┤
 │ - ConfigurationHospitaliere()                │
-│ + GetInstance() : ConfigurationHospitaliere   │
+│ + GetInstance() : ConfigurationHospitaliere  │
 │ + GetConnectionString() : string             │
 │ + SetConnectionString(value: string)         │
 │ + GetLangue() : string                       │
